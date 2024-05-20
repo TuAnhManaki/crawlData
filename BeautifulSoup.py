@@ -10,8 +10,8 @@ sys.stdout.reconfigure(encoding="utf-8")
 
 # print("α")
 
-class TestDat():
-    def __init__(self="", className="", tabName="", content="", link=""):
+class Data():
+    def __init__(self, className, tabName, content, link=""):
         self.className = className
         self.tabName = tabName
         self.content = content
@@ -69,7 +69,7 @@ soup = BeautifulSoup(response.text, 'html.parser')
 description = soup.find("p", {"class": "description"})
 content = soup.find("article", {"class": "fck_detail"})
 
-TestArray = []
+crawlData = []
 
 
 # Lặp qua từng phần tử div 
@@ -85,16 +85,16 @@ for child in content.children:
                 src_conment= soup.find("p", {"class": "Image"}).text
                 src = str(soup.find('img').get('src'))
             
-                TestArray.append(TestDat(str(class_name),'image', src_conment, src))
+                crawlData.append(Data(str(class_name),'image', src_conment, src))
             else:
-                TestArray.append(TestDat(class_name,child.name,child.text))
+                crawlData.append(Data(class_name,child.name,child.text))
 
 
 # save data
 data_to_save = {
     'title': soup.title.string,
     'description': description.string,
-    'content': 'TestArray'
+    'content': 'crawlData'
 }
 # with open('data.json', 'w') as json_file:
 #     json.dump(data_to_save, json_file, indent=4)
@@ -103,13 +103,13 @@ print("crawl data")
 print("Title: ",soup.title.string)
 print("Description: ", soup.title.string)
 print("Content:")
-for x in range(len(TestArray)):
+for x in range(len(crawlData)):
     print("object "+str(x))
-    print(TestArray[x].className)
-    print(TestArray[x].tabName)
-    print(TestArray[x].content)
-    if (TestArray[x].link):
-        print(TestArray[x].link)
+    print(crawlData[x].className)
+    print(crawlData[x].tabName)
+    print(crawlData[x].content)
+    if (crawlData[x].link):
+        print(crawlData[x].link)
         
    
 
